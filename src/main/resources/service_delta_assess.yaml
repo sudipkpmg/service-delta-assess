@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: Service Delta Assess API
+  version: '1.0'
+  description: Service Delta Assess API
+servers:
+  - url: 'https://localhost:8080'
+paths:
+  /list_goals:
+    post:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Goal"
+          description: List of goals
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              example:
+                code: '404'
+                message: No goal found
+          description: No goal found
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceError'
+              example:
+                code: '500'
+                message: Service error
+          description: Service error
+      description: List all goals
+components:
+  schemas:
+    Goal:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        text:
+          type: string
+    ServiceError:
+      type: object
+      properties:
+        code:
+          description: Error code
+          type: string
+        message:
+          description: Error description
+          type: string
